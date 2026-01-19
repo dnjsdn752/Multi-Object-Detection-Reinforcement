@@ -1,0 +1,7 @@
+dataset/
+models/
+__pycache__/
+
+*.xlsx
+*.PNG
+*.jpg
