@@ -36,7 +36,7 @@
         - 서로 다른 영역 탐색 시 ➜ **보상 +1**
     - **학습 안정화 (DQN 2015 적용)**: [2015 Nature DQN](https://www.nature.com/articles/nature14236) 논문에서 제안한 **Target Network Update** 방식을 적용.
         - 매 스텝마다 업데이트하던 기존 방식 대신, `5 step`마다 타겟 네트워크를 업데이트하여 학습의 진동을 줄이고 안정성을 확보함.
-          <img width="829" height="634" alt="image" src="https://github.com/user-attachments/assets/9931ee21-7a1c-4776-9872-8ae361e39105" />
+          <img width="400" height="300" alt="image" src="https://github.com/user-attachments/assets/9931ee21-7a1c-4776-9872-8ae361e39105" />
 
           <img width="600" height="130" alt="image" src="https://github.com/user-attachments/assets/846bf9d5-ffd5-49f0-b937-e7057ea587fa" />
 
@@ -50,7 +50,7 @@
         > **개념**: `최종 Q값 = (내 판단 × 내 확신도) + (동료의 제안 × (1 - 내 확신도))`
         - 확신도(Sigmoid 값)가 높으면 자신의 판단을 따르고, 낮으면 가상(Virtual) 에이전트의 제안을 더 신뢰하도록 설계.
     - **교차 학습 전략 (Cross-Training)**: '실제(Actual)' 모델과 '가상(Virtual)' 모델이 서로 가중치를 교환하며 학습하여 상호 보완적인 탐색 능력을 배양.
-      <img width="748" height="522" alt="image" src="https://github.com/user-attachments/assets/03bf5767-7fd8-487c-a25e-45d705635625" />
+      <img width="350" height="250" alt="image" src="https://github.com/user-attachments/assets/03bf5767-7fd8-487c-a25e-45d705635625" />
       (이미지 출처: [Collaborative Deep Reinforcement Learning for Joint Object Search](https://arxiv.org/abs/1702.05573))
  - **시각화** :
    <img width="1016" height="382" alt="image" src="https://github.com/user-attachments/assets/f41df3c1-8f8a-4019-adb9-2f4168b1f3fa" />
