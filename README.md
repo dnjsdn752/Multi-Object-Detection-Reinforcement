@@ -94,9 +94,3 @@
 4. **Bottom-Right Crop**: 오른쪽 아래 영역으로 줌인.
 5. **Center Crop**: 중앙 영역으로 줌인.
 6. **Trigger**: 탐색 종료 및 현재 영역을 최종 탐지 결과로 제안.
-
-## 📋 실행 환경 (Requirements)
-- Python 3.x
-- PyTorch
-- OpenCV
-- Numpy
