@@ -28,7 +28,9 @@
 - **방식**: 기본적인 계층적(Hierarchical) DQN을 사용하여 줌인(Zoom-in) 방식으로 탐색.
 
 ### 2. 2단계: 독립적 멀티 에이전트 실험 (`main.py`)
-- **목표**: 단일 이미지 내의 **여러 객체 Multi-Object**를 동시에 탐지.
+> **실험 가설**: "에이전트를 2개로 늘리고, 서로 같은 곳을 보지 않게 하면(Repulsion), 한 이미지 안의 여러 물체를 동시에 찾을 수 있지 않을까?"
+
+- **목표**: 단일 이미지 내의 **여러 객체(Multi-Object)**를 동시에 탐지.
 - **주요 혁신 및 변경점**:
     - **2-Agent 시스템 도입**: 두 개의 에이전트가 동시에 독립적으로 탐색을 수행.
     - **Repulsion Reward (밀어내기 보상)**: 에이전트들이 서로 같은 객체로 몰리는 것을 방지하기 위해 벌점 시스템 도입.
@@ -36,14 +38,16 @@
         - 서로 다른 영역 탐색 시 ➜ **보상 +1**
     - **학습 안정화 (DQN 2015 적용)**: [2015 Nature DQN](https://www.nature.com/articles/nature14236) 논문에서 제안한 **Target Network Update** 방식을 적용.
         - 매 스텝마다 업데이트하던 기존 방식 대신, `5 step`마다 타겟 네트워크를 업데이트하여 학습의 진동을 줄이고 안정성을 확보함.
-          
-          <img width="400" height="300" alt="image" src="https://github.com/user-attachments/assets/9931ee21-7a1c-4776-9872-8ae361e39105" />
 
-          <img width="600" height="130" alt="image" src="https://github.com/user-attachments/assets/846bf9d5-ffd5-49f0-b937-e7057ea587fa" />
-
-
+<div align="center">
+  <img width="400" height="300" alt="Result Image 1" src="https://github.com/user-attachments/assets/9931ee21-7a1c-4776-9872-8ae361e39105" />
+  <br>
+  <img width="600" height="130" alt="Result Image 2" src="https://github.com/user-attachments/assets/846bf9d5-ffd5-49f0-b937-e7057ea587fa" />
+</div>
 
 ### 3. 3단계: 협력적 멀티 에이전트 실험 (`multi_main.py`)
+> **실험 가설**: "각자 따로 노는 게 아니라, 내가 확신이 없을 때 친구의 판단을 참고하면(Collaboration) 더 정확해질 수 있을까?"
+
 - **목표**: 에이전트 간의 **협력(Collaboration)**을 통해 탐지 정확도 및 효율성 증대.
 - **참고 논문**: [Collaborative Deep Reinforcement Learning for Joint Object Search](https://arxiv.org/abs/1702.05573)
 - **주요 혁신 및 변경점**:
@@ -51,16 +55,25 @@
         > **개념**: `최종 Q값 = (내 판단 × 내 확신도) + (동료의 제안 × (1 - 내 확신도))`
         - 확신도(Sigmoid 값)가 높으면 자신의 판단을 따르고, 낮으면 가상(Virtual) 에이전트의 제안을 더 신뢰하도록 설계.
     - **교차 학습 전략 (Cross-Training)**: '실제(Actual)' 모델과 '가상(Virtual)' 모델이 서로 가중치를 교환하며 학습하여 상호 보완적인 탐색 능력을 배양.
-      
-      <img width="350" height="250" alt="image" src="https://github.com/user-attachments/assets/03bf5767-7fd8-487c-a25e-45d705635625" />
-      
-      (이미지 출처: [Collaborative Deep Reinforcement Learning for Joint Object Search](https://arxiv.org/abs/1702.05573))
- - **시각화** :
-   <img width="1016" height="382" alt="image" src="https://github.com/user-attachments/assets/f41df3c1-8f8a-4019-adb9-2f4168b1f3fa" />
-   <img width="600" height="90" alt="image" src="https://github.com/user-attachments/assets/c1072d6a-de8e-439b-9da9-e92bc2b82501" />
 
+<div align="center">
+  <img width="350" height="250" alt="Concept Image" src="https://github.com/user-attachments/assets/03bf5767-7fd8-487c-a25e-45d705635625" />
+  <p>(이미지 출처: Collaborative Deep Reinforcement Learning for Joint Object Search)</p>
+  <br>
+  <h4>[시각화 결과]</h4>
+  <img width="1016" height="382" alt="Visualization 1" src="https://github.com/user-attachments/assets/f41df3c1-8f8a-4019-adb9-2f4168b1f3fa" />
+  <br>
+  <img width="600" height="90" alt="Visualization 2" src="https://github.com/user-attachments/assets/c1072d6a-de8e-439b-9da9-e92bc2b82501" />
+</div>
 
+## 📝 요약 및 결론 (Summary & Conclusion)
 
+본 프로젝트는 **`origin_main.py` (단일 객체 탐지)** 모델을 기반으로 하여 다음과 같은 연구 흐름을 통해 발전했습니다.
+
+1.  **확장 (Scaling)**: `main.py`에서 에이전트 수를 늘리고, 서로 다른 객체를 찾도록 **"서로 밀어내는 보상(Repulsion)"**을 추가하여 다중 객체 탐지를 시도했습니다.
+2.  **협력 (Collaboration)**: `multi_main.py`에서는 단순한 독립 탐색을 넘어, **"Sigmoid 게이팅을 이용한 정보 공유"**라는 독창적인 아키텍처를 도입하여 에이전트 간의 협력 가능성을 실험했습니다.
+
+이러한 실험을 통해, 강화학습 에이전트들이 단순히 개별적으로 동작하는 것을 넘어 서로 상호작용하고 정보를 교환할 때 더 복잡한 환경(Multi-Object)에서도 효과적으로 동작할 수 있음을 확인하고자 했습니다.
 
 ## 📂 주요 파일 설명
 
@@ -82,4 +95,8 @@
 5. **Center Crop**: 중앙 영역으로 줌인.
 6. **Trigger**: 탐색 종료 및 현재 영역을 최종 탐지 결과로 제안.
 
-
+## 📋 실행 환경 (Requirements)
+- Python 3.x
+- PyTorch
+- OpenCV
+- Numpy
